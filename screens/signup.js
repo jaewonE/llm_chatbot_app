@@ -10,7 +10,7 @@ import {API_URL} from '@env';
 const Signup = ({navigation: {navigate}}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const {setUserName} = useContext(UserContext);
+  const {setUserInfo} = useContext(UserContext);
   const {setItem} = useAsyncStorage('@x-jwt');
 
   const mutation = useMutation(
@@ -19,7 +19,7 @@ const Signup = ({navigation: {navigate}}) => {
       onSuccess: async data => {
         if (data.status === 200 && data.data.status === 'success') {
           await setItem(data.data['x-jwt']);
-          setUserName(name);
+          setUserInfo({userName: name, jwt: data.data['x-jwt']});
         } else {
           Alert.alert('Error', data.data.message);
         }

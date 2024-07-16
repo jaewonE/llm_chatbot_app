@@ -4,14 +4,14 @@ import {removeData} from '../utils/storage';
 import {UserContext} from '../App';
 
 const Setting = ({navigation: {navigate}}) => {
-  const {setUserName} = useContext(UserContext);
+  const {setUserInfo} = useContext(UserContext);
   return (
     <Container>
       <Title>Setting</Title>
       <LogoutButton
         onPress={() => {
           removeData('@x-jwt');
-          setUserName('');
+          setUserInfo(null);
         }}>
         <LogoutText>Log out</LogoutText>
       </LogoutButton>

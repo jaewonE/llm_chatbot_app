@@ -1,4 +1,10 @@
-import React, {createContext, useCallback, useEffect, useState} from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import InnerRoutes from './router/innerRoutes';
 import OuterRouter from './router/outerRoutes';
@@ -12,11 +18,13 @@ const queryClient = new QueryClient();
 export const UserContext = createContext();
 
 const App = () => {
-  const [userName, setUserName] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
   const [isAppLoading, setIsAppLoading] = useState(true);
   const {getItem, setItem} = useAsyncStorage('@x-jwt');
+  const initStart = useRef(false);
 
   const getUser = useCallback(async () => {
+    initStart.current = true;
     const jwt = await getItem();
     if (jwt) {
       try {
@@ -26,7 +34,7 @@ const App = () => {
         if (response.status === 200 && response.data.status === 'success') {
           const name = response.data.user_name;
           if (name) {
-            setUserName(name);
+            setUserInfo({userName: name, jwt: jwt});
             await setItem(jwt);
           }
         }
@@ -37,10 +45,12 @@ const App = () => {
     setTimeout(() => {
       setIsAppLoading(false);
     }, 500);
-  }, [getItem, setItem, setUserName]);
+  }, [getItem, setItem]);
 
   useEffect(() => {
-    getUser();
+    if (!initStart.current) {
+      getUser();
+    }
   }, [getUser]);
 
   return isAppLoading ? (
@@ -48,8 +58,8 @@ const App = () => {
   ) : (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
-        <UserContext.Provider value={{userName, setUserName}}>
-          {userName ? <InnerRoutes /> : <OuterRouter />}
+        <UserContext.Provider value={{userInfo, setUserInfo}}>
+          {userInfo ? <InnerRoutes /> : <OuterRouter />}
         </UserContext.Provider>
       </NavigationContainer>
     </QueryClientProvider>
