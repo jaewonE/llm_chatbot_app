@@ -1,20 +1,20 @@
 import React, {useContext, useState} from 'react';
 import {View, Text, TextInput, Button, Alert} from 'react-native';
 import styled from 'styled-components/native';
+import {UserContext} from '../App';
 import {useMutation} from 'react-query';
 import axios from 'axios';
-import {UserContext} from '../App';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import {API_URL} from '@env';
 
-const Login = ({navigation: {navigate}}) => {
+const Signup = ({navigation: {navigate}}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const {setUserName} = useContext(UserContext);
   const {setItem} = useAsyncStorage('@x-jwt');
 
   const mutation = useMutation(
-    user => axios.post(`${API_URL}/user/signin`, user),
+    user => axios.post(`${API_URL}/user/signup`, user),
     {
       onSuccess: async data => {
         if (data.status === 200 && data.data.status === 'success') {
@@ -33,13 +33,13 @@ const Login = ({navigation: {navigate}}) => {
     },
   );
 
-  const handleLogin = () => {
+  const handleSignup = () => {
     mutation.mutate({user_name: name, user_password: password});
   };
 
   return (
     <Container>
-      <Title>Login</Title>
+      <Title>Signup</Title>
       <Input placeholder="Name" value={name} onChangeText={setName} />
       <Input
         placeholder="Password"
@@ -47,13 +47,13 @@ const Login = ({navigation: {navigate}}) => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Go to Signup" onPress={() => navigate('Signup')} />
+      <Button title="Signup" onPress={handleSignup} />
+      <Button title="Go to Login" onPress={() => navigate('Login')} />
     </Container>
   );
 };
 
-export default Login;
+export default Signup;
 
 const Container = styled.View`
   flex: 1;
