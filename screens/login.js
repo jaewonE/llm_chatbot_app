@@ -47,8 +47,10 @@ const Login = ({navigation: {navigate}}) => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Go to Signup" onPress={() => navigate('Signup')} />
+      <ButtonContainer onPress={handleLogin}>
+        <ButtonText>Login</ButtonText>
+      </ButtonContainer>
+      <GoSignup onPress={() => navigate('Signup')}>Go to Signup</GoSignup>
     </Container>
   );
 };
@@ -63,15 +65,41 @@ const Container = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 32px;
+  margin-bottom: 28px;
 `;
 
 const Input = styled.TextInput`
   height: 40px;
   border-color: gray;
   border-width: 1px;
+  border-radius: 8px;
   margin-bottom: 20px;
   padding: 10px;
   width: 100%;
+`;
+
+const ButtonContainer = styled.TouchableOpacity`
+  width: 100%;
+  background-color: #4285f4;
+  border-radius: 8px;
+  padding: 8px;
+  padding-bottom: 11px;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 4px;
+`;
+
+const ButtonText = styled.Text`
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+`;
+
+const GoSignup = styled.Text`
+  background-color: #ffffff00;
+  color: #833ab4;
+  font-size: 15px;
+  font-weight: 400;
+  margin-top: 2px;
 `;

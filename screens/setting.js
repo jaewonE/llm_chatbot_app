@@ -9,13 +9,12 @@ const Setting = ({navigation: {navigate}}) => {
     <Container>
       <Title>Setting</Title>
       <LogoutButton
-        title="Log out"
-        color="#ff0000"
         onPress={() => {
           removeData('@x-jwt');
           setUserName('');
-        }}
-      />
+        }}>
+        <LogoutText>Log out</LogoutText>
+      </LogoutButton>
     </Container>
   );
 };
@@ -34,9 +33,18 @@ const Title = styled.Text`
   margin-bottom: 24px;
 `;
 
-const LogoutButton = styled.Button`
+const LogoutButton = styled.TouchableOpacity`
   margin-top: auto;
-  border-radius: 12px;
-  background-color: #ff0000;
+  border-radius: 8px;
+  background-color: #db4437;
+  padding: 8px;
+  padding-bottom: 11px;
+  margin-bottom: 12px;
+`;
+
+const LogoutText = styled.Text`
   color: #fff;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 600;
 `;
