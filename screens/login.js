@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, TextInput, Button, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import styled from 'styled-components/native';
 import {useMutation} from 'react-query';
 import axios from 'axios';
@@ -34,7 +34,10 @@ const Login = ({navigation: {navigate}}) => {
   );
 
   const handleLogin = () => {
-    mutation.mutate({user_name: name, user_password: password});
+    mutation.mutate({
+      user_name: name,
+      user_password: password,
+    });
   };
 
   return (

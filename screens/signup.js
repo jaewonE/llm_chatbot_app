@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, TextInput, Button, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import styled from 'styled-components/native';
 import {UserContext} from '../App';
 import {useMutation} from 'react-query';
@@ -10,6 +10,7 @@ import {API_URL} from '@env';
 const Signup = ({navigation: {navigate}}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [accessCode, setAccessCode] = useState('');
   const {setUserInfo} = useContext(UserContext);
   const {setItem} = useAsyncStorage('@x-jwt');
 
@@ -34,7 +35,11 @@ const Signup = ({navigation: {navigate}}) => {
   );
 
   const handleSignup = () => {
-    mutation.mutate({user_name: name, user_password: password});
+    mutation.mutate({
+      user_name: name,
+      user_password: password,
+      access_code: accessCode,
+    });
   };
 
   return (
@@ -46,6 +51,12 @@ const Signup = ({navigation: {navigate}}) => {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+      />
+      <Input
+        placeholder="Access Code"
+        secureTextEntry
+        value={accessCode}
+        onChangeText={setAccessCode}
       />
       <ButtonContainer onPress={handleSignup}>
         <ButtonText>Sign up</ButtonText>
