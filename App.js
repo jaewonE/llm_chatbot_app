@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import InnerRoutes from './router/innerRoutes';
 import OuterRouter from './router/outerRoutes';
 import {QueryClient, QueryClientProvider} from 'react-query';
@@ -16,6 +16,14 @@ import {API_URL} from '@env';
 
 const queryClient = new QueryClient();
 export const UserContext = createContext();
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#fdfdfd',
+  },
+};
 
 const App = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -57,7 +65,7 @@ const App = () => {
     <AppLoading />
   ) : (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
+      <NavigationContainer theme={navTheme}>
         <UserContext.Provider value={{userInfo, setUserInfo}}>
           {userInfo ? <InnerRoutes /> : <OuterRouter />}
         </UserContext.Provider>

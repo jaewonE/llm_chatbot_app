@@ -1,27 +1,37 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {TouchableOpacity} from 'react-native';
-
-//   {
-//     chat_id: 'a2dada-da2dntya4fs4s-cs3cacacs4-a3ca3',
-//     creater: 'JaewonE',
-//     model_name: 'Mock',
-//     first_message:
-//       '요즘 회사가기 너무 싫어. 일이 너무 많고 힘들어. 어떻게 해야 할까?',
-//     last_modified_time: '2024-07-10 10:13:12',
-//   },
+import {TouchableWithoutFeedback} from 'react-native';
 
 const ChatList = ({navigate, chatList}) => {
+  const getTimeString = time => {
+    let result = '';
+    const arr = time.split(' ');
+    result += arr[0].slice(5).split('-').join('/');
+    result += ' ';
+    result += arr[1].split(':', 2).join(':');
+    return result;
+  };
   return (
     <Container>
-      {chatList.map((chat, index) => (
-        <ChatItem key={chat.chat_id} onPress={() => navigate('Chat', {chat})}>
-          <ChatHeader>
-            <ChatTitle>{chat.model_name}</ChatTitle>
-            <ChatTime>{`${chat.creater} | ${chat.last_modified_time}`}</ChatTime>
-          </ChatHeader>
-          <ChatMessage numberOfLines={1}>{chat.first_message}</ChatMessage>
-        </ChatItem>
+      {chatList.map(chat => (
+        <TouchableWithoutFeedback
+          key={chat.chat_id}
+          onPress={() =>
+            navigate('ViewRouter', {
+              screen: 'Chat',
+              params: {chatId: chat.chat_id},
+            })
+          }>
+          <ChatItem>
+            <ChatHeader>
+              <ChatTitle>{chat.model_name}</ChatTitle>
+              <ChatTime>{`${getTimeString(chat.last_modified_time)}\n${
+                chat.creater
+              }`}</ChatTime>
+            </ChatHeader>
+            <ChatMessage numberOfLines={1}>{chat.last_message}</ChatMessage>
+          </ChatItem>
+        </TouchableWithoutFeedback>
       ))}
     </Container>
   );
@@ -36,7 +46,7 @@ const Container = styled.ScrollView`
   /* background-color: #ffffff; */
 `;
 
-const ChatItem = styled(TouchableOpacity)`
+const ChatItem = styled.View`
   padding: 16px;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -58,6 +68,7 @@ const ChatTitle = styled.Text`
 `;
 
 const ChatTime = styled.Text`
+  text-align: right;
   color: #757575;
   font-size: 12px;
 `;
