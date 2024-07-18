@@ -1,0 +1,10 @@
+{
+  "id": "mental-health-counseling-app",
+  "name": "Mental Health Counseling App",
+  "version": "0.1.0",
+  "minReactNativeVersion": "0.15.0",
+  "description": "Mental Health Counseling App",
+  "author": "JaewonE",
+  "authorUrl": "https://github.com/jaewonE",
+  "license": "GPL-3.0"
+}

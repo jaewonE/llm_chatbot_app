@@ -72,6 +72,9 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# custom
 android/app/debug.keystore
 ios/.xcode.env
 .env
+android/gradle.properties
